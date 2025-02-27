@@ -64,12 +64,15 @@ km_df_long <- km_df |>
 ggplot(km_df_long, aes(x = tenure)) +
   geom_line(aes(y = km_fit, color = "Actual"), linewidth = 1) +
   geom_line(aes(y = prediction, color = "Predicted"), linewidth = 3, alpha = 0.5) +
+  geom_vline(aes(xintercept = 12, linetype = "train / test split"), color = "black") +
   facet_wrap(~ model, scales = "free_y") +
   ylim(0.5, NA) +
   scale_color_manual(values = c("Actual" = "steelblue", "Predicted" = "steelblue")) +
-  guides(color = guide_legend(override.aes = list(alpha = c(1, 0.5)))) +
+  scale_linetype_manual(values = c("train / test split" = "dashed")) +
+  guides(color = guide_legend(override.aes = list(alpha = c(1, 0.5))),
+         linetype = guide_legend(override.aes = list(color = "black"))) +
   theme_minimal() +
-  labs(color = NULL)
+  labs(x = "Tenure", y = "Survival %", color = NULL, linetype = NULL)
 
 ```
 
