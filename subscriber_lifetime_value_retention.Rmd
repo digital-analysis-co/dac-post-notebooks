@@ -89,13 +89,13 @@ mixture_survival <- function(t) {
   p * exp(-lambda_e * t) + (1 - p) * exp(- (lambda_w * t) ^ kappa_w)
 }
 
-cutoffs <- c(24, 36, 48, 60)
+cutoffs <- c(24, 36, 48, 60, 72)
 
 expected_df <- tibble(
   Cutoff = cutoffs,
   Mixture_Expected_Avg_Survival = map_dbl(cutoffs, ~ integrate(mixture_survival, lower = 0, upper = .x)$value) |> round(2)
 )
 
-expected_df |> datatable(options = list(dom = 't' ))
+expected_df |> datatable(options = list(dom = 't'), rownames = F)
 
 ```
