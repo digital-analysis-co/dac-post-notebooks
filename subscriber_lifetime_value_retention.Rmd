@@ -31,15 +31,13 @@ ggplot(km_df, aes(x = tenure, y = km_fit)) +
 
 ```
 
-Parametric models are good in the situation where there's a new business with limited history and you want to extrapolate out. Let's say you have 24 months of history but want to understand what retention will look like 12 months in the future ...
-
 ```{r parametric_models}
 
-km_df_24 <- km_df |> filter(tenure <= 12) # fit on only 12 months of tenure
-weibull_fit <- nlsLM(km_fit ~ exp(- (lambda * tenure) ^ kappa), data = km_df_24, start = list(lambda = 0.01, kappa = 1))
-loglogistic_fit <- nlsLM(km_fit ~ 1 / (1 + (lambda * tenure) ^ kappa), data = km_df_24, start = list(lambda = 0.01, kappa = 1))
-exp_fit <- nlsLM(km_fit ~ exp(-lambda * tenure), data = km_df_24, start = list(lambda = 0.01))
-wei_exp_fit <- nlsLM(km_fit ~ p * exp(-lambda_e * tenure) + (1 - p) * exp(- (lambda_w * tenure) ^ kappa_w), data = km_df_24, 
+km_df_12 <- km_df |> filter(tenure <= 12) # fit on only 12 months of tenure
+weibull_fit <- nlsLM(km_fit ~ exp(- (lambda * tenure) ^ kappa), data = km_df_12, start = list(lambda = 0.01, kappa = 1))
+loglogistic_fit <- nlsLM(km_fit ~ 1 / (1 + (lambda * tenure) ^ kappa), data = km_df_12, start = list(lambda = 0.01, kappa = 1))
+exp_fit <- nlsLM(km_fit ~ exp(-lambda * tenure), data = km_df_12, start = list(lambda = 0.01))
+wei_exp_fit <- nlsLM(km_fit ~ p * exp(-lambda_e * tenure) + (1 - p) * exp(- (lambda_w * tenure) ^ kappa_w), data = km_df_12, 
                          start = list(lambda_e = 0.01, lambda_w = 0.01, kappa_w = 1, p = 0.5), control = nls.lm.control(maxiter = 500))
 
 
